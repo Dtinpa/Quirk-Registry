@@ -11,7 +11,7 @@ import json
 # dtdthomp54@gmail.com
 # This spider is responsible for retrieving the super power name, desc, and limitations
 
-# The "Power:" portion helps when reading the spider data.  Since the spiders are ran simultaneously, we can't garuntee order of output.
+# Initializing empty json object so it can be accessed anywhere
 globalResult = {"Power":"None"}
 
 class Spider_PowerData(Spider):
@@ -38,7 +38,7 @@ class Spider_PowerData(Spider):
 		resultUrl = response.request.url;
                 urlSplit = resultUrl.split("/");			
 
-		# The triple comma act as unique delimieters for when we parse the string later.  The last element is the name of the power
+		# Setup the proper json object so it can be turned into a string
 		global globalResult;
 		globalResult = {"Power": {
 				"Name": urlSplit[len(urlSplit) - 1].replace("_", " "),
