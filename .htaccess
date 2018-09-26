@@ -1,0 +1,3 @@
+DirectoryIndex FrontEnd/index.html
+Options -Indexes
+RedirectMatch 403 /\..*$

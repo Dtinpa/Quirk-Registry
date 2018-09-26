@@ -1,0 +1,21 @@
+# !/bin/bash
+# Dana Thompson
+# dtdthomp54@gmail.com
+
+# This shell script is responsible for gathering all the data from the spiders, feeding it into the game controller,
+# then returning the result back to the PHP script calling it.  This stops us from having to edit the PHP script everytime
+# a change to these various script files are done.
+
+
+# There's a syntax warning for the global variable, since its in multiple places of the file.  It isn't important
+cd ../
+spiderData=$(/home/dtinpa/quirkregistry.com/BackEnd/bin/python2.7 -W ignore BackEnd/WebScraper/WebScraper/spiders/spiderManager.py)
+
+echo "$spiderData"
+
+# testData='Power:Users become stronger, faster, more durable, etc. beliefs of oneself and others, possibly unlocking abilities related to the affinity and enhancing the existing powers. Some users may be able draw sustenance from the belief or even slow or stop aging.,,,May be limited to the belief of others.,,,No Range,,,Belief Empowerment
+#Body:Prostate
+#Weak:Giardia Lamblia,,,https://www.medicinenet.com/giardia_lamblia/article.htm'
+
+# completeQuirk=$(/home/dtinpa/quirkregistry.com/BackEnd/bin/python2.7 BackEnd/QuirkLogic/quirkLogic.py "$testData")
+#echo "$testData"
