@@ -10,10 +10,10 @@ function parseQuirk(obj) {
 		obj["activity"],
 		obj["Power"]["Special"]);
 	
-	// generate a random range that affects the power
+	// generate a random range that affects the power, that trends towards lower values
 	var min = 0;
-	var max = 500;
-	var range = parseInt(Math.floor(Math.abs(Math.random() - Math.random()) * (1 + max - min) + min));
+	var max = 4000;
+	var range = parseInt(min + (max - min) * Math.pow(Math.random(), 6));
 	
 	return constructOutput(obj["Power"]["Name"],
 		obj["Power"]["Desc"],
@@ -29,7 +29,7 @@ function constructOutput(powerName, powerDesc, finalLimit, channel, range, speci
 	title = "<h2 class='quirkHeader'>Quirk</h2><div>" + powerName + "</div>";
 	desc = "<h2 class='quirkHeader'>Info</h2><div>" + powerDesc + "</div>";
 	chnl = "<h2 class='quirkHeader'>Method of Activation</h2><div>" + channel + "</div>";
-	limit = "<h2 class='quirkHeader'>Limit</h2><div>" + finalLimit.replace(' Symptoms and Signs','') + "</div>";
+	limit = "<h2 class='quirkHeader'>Limit / More Susceptible To</h2><div>" + finalLimit.replace(' Symptoms and Signs','') + "</div>";
 	rnge = "";
 	
 	if(!special.includes("No Range")) {
@@ -63,7 +63,7 @@ function activationCalc(body, action, activity, special) {
 	if (special.includes("body")) {
 		manifestation = manBodyPart(body, action);
 	} else if(manChance < 0.3 || special.includes("activity")) {
-		manifestation = activity;
+		manifestation = activity.charAt(0).toUpperCase() + activity.slice(1);
 	} else {
 		manifestation = manBodyPart(body, action);;
 	}

@@ -1,3 +1,14 @@
+<!--
+Dana Thompson
+dtdthomp54@gmail.com
+
+This website is to be used to create a quirk similar to that of the show from
+My Hero Academia.
+
+Song I'm listening to: 333 Revisited - Flea
+
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,6 +18,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+	<meta name="keywords" content="Quirk,quirk,generation,Generation,Generator,generator,BNHA, My Hero Academia,Boku No Hero Academia,creator,Creator">
 
     <title>BNHA: Quirk Registry</title>
 
@@ -34,7 +46,7 @@
         <a class="navbar-brand js-scroll-trigger" href="#page-top">What's Your Quirk?</a>
           <ul class="navbar-nav ml-auto">
             <li class="nav-item mx-0 mx-lg-1">
-              <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#quirk">Create Quirk</a>
+              <a id="quirkButton" class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#quirk">Create Quirk</a>
             </li>
           </ul>
       </div>
@@ -82,23 +94,54 @@
 		
 		// Theres an html principle of "seperation of content between behavior/action"
 		// Just thought it might be good practice as opposed to using an onclick
-		$('a').click( function(e) {
+		$('#quirkButton').click( function(e) {
 			e.preventDefault();
-			window.location.hash =  "#quirk";
 			
-			// If on the off chance a fatal error occurs, log the bug, but tell the user
-			// They were just born without a quirk
-			try {
-				quirk();
-			} catch(err) {
-				console.log(err);
-				document.getElementById("result").innerHTML = "<h2>You're Quirkless</h2>";
-			}
+			window.location.hash =  "#quirk";
+			buttonElement = document.getElementById("quirkButton");
+			
+			// Only execute this request if the link doesn't have this class
+			// helps prevent spam
+			if(!buttonElement.classList.contains('inactive')) {
+				// If on the off chance a fatal error occurs, log the bug, but tell the user
+				// They were just born without a quirk
+				try {
+					quirk();
+				} catch(err) {
+					console.log(err);
+					document.getElementById("result").innerHTML = "<h2>You're Quirkless</h2>";
+				}
+			
+				// Adds the 'inactive' class to keep people from spamming the button
+				buttonElement.classList.add('inactive');
+				$('#quirkButton').css('visibility', 'hidden');
+					setTimeout(function() { 
+					buttonElement.classList.remove('inactive');
+					$('#quirkButton').css('visibility', '');
+					}, 5000);
+			}					
+				
 			return false; 
 		});
 		
 	</script>
-
-  </body>
+	<!-- Default Statcounter code for Quirkregistry
+	http://quirkregistry.com/ -->
+	<script type="text/javascript">
+		var sc_project=11836517; 
+		var sc_invisible=0; 
+		var sc_security="d08e4f1f"; 
+		var scJsHost = (("https:" == document.location.protocol) ?
+		"https://secure." : "http://www.");
+		document.write("<sc"+"ript type='text/javascript' src='" +
+		scJsHost+ "statcounter.com/counter/counter.js'></"+"script>");
+	</script>
+	<noscript><div class="statcounter"><a title="Web Analytics"
+		href="http://statcounter.com/" target="_blank"><img
+		class="statcounter"
+		src="//c.statcounter.com/11836517/0/d08e4f1f/0/" alt="Web
+		Analytics"></a></div></noscript>
+	<!-- End of Statcounter Code -->
+	</body>
 
 </html>
