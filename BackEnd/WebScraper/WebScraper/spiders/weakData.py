@@ -12,18 +12,20 @@ import json
 # dtdthomp54@gmail.com
 # This spider is responsible for gettings a random medical condition to use as a weakness for the power
 
-# The "Body:" portion helps when reading the spider data.  Since the spiders are ran simultaneously, we can't garuntee order of output.
+# The "Weak:" portion helps when reading the spider data.  Since the spiders are ran simultaneously, we can't garuntee order of output.
 globalResult = {"Weak":"None"}
 
 class Spider_WeakData(Spider):
 	name = "weakData";
 
+	# Allows our spider_closed function to be called once the spider sends a "spider_closed" signal
 	@classmethod
 	def from_crawler(cls, crawler, *args, **kwargs):
 		spider = super(Spider_WeakData, cls).from_crawler(crawler, *args, **kwargs);
 		crawler.signals.connect(spider.spider_closed, signals.spider_closed);
 		return spider;
 
+	# The symptoms are listed based on whatever letter of the alphabet is in the url
 	def start_requests(self):
 		rLetterLower = random.choice(string.ascii_lowercase);
 		url = "https://www.medicinenet.com/symptoms_and_signs/alpha_" + rLetterLower + ".htm"
@@ -44,13 +46,14 @@ class Spider_WeakData(Spider):
 			global globalResult;
 			print json.dumps(globalResult);
 	
-	#Parses the html body of the random body site.
+	#Parses the html body of the random symptom site.
 	def parseBody(self, response):
 		soup = BeautifulSoup(response, 'html.parser');
 		container = soup.find(id="AZ_container");
 		listDiv = container.find("ul");
 		weakList = listDiv.findAll("li");
 
+		# There's the sympptom and its corresponding url to show details of the symptom
 		result = random.choice(weakList);
 		weakHref = result.find('a', href=True);
 		weakUrl = weakHref['href'].encode("utf-8");

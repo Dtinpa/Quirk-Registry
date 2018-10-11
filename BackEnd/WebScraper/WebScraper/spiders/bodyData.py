@@ -18,6 +18,7 @@ globalResult = {"Body":"None"}
 class Spider_BodyData(Spider):
 	name = "bodyData";
 
+	# Allows our spider_closed function to be called once the spider sends a "spider_closed" signal
 	@classmethod
 	def from_crawler(cls, crawler, *args, **kwargs):
 		spider = super(Spider_BodyData, cls).from_crawler(crawler, *args, **kwargs);
@@ -39,8 +40,7 @@ class Spider_BodyData(Spider):
 			method='POST',
 			formdata=formdata,
 			callback=self.parse)
-		yield req
-			#yield scrapy.Request(url=url, callback=self.parse);
+		yield req;
 
 	def parse(self, response):
 		global globalResult;
