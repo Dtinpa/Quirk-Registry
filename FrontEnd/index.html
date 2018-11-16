@@ -23,18 +23,18 @@ Song I'm listening to: 333 Revisited - Flea
     <title>BNHA: Quirk Registry</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="/FrontEnd/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/FrontEnd/vendor/bootstrap/css/bootstrap.min.css?<?php echo date('l jS \of F Y h:i:s A'); ?>" rel="stylesheet">
 
     <!-- Custom fonts for this template -->
-    <link href="/FrontEnd/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="/FrontEnd/vendor/fontawesome-free/css/all.min.css?<?php echo date('l jS \of F Y h:i:s A'); ?>" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
 
     <!-- Plugin CSS -->
-    <link href="/FrontEnd/vendor/magnific-popup/magnific-popup.css" rel="stylesheet" type="text/css">
+    <link href="/FrontEnd/vendor/magnific-popup/magnific-popup.css?<?php echo date('l jS \of F Y h:i:s A'); ?>" rel="stylesheet" type="text/css">
 
     <!-- Custom styles for this template -->
-    <link href="/FrontEnd/css/freelancer.min.css" rel="stylesheet">
+    <link href="/FrontEnd/css/freelancer.min.css?<?php echo date('l jS \of F Y h:i:s A'); ?>" rel="stylesheet">
 
   </head>
 
@@ -78,16 +78,27 @@ Song I'm listening to: 333 Revisited - Flea
 
 		//document.write("\<script src='//ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js' type='text/javascript'>\<\/script>");
 
+		function logError(log) {
+			console.log(log);
+			document.getElementById("result").innerHTML = "<h2>You're Quirkless</h2>";
+		}
+		
 		function quirk() {	
 			$.ajax({
 				url: 'FrontEnd/quirkGenie.php',
 				type: 'GET',
 				dataType: "json",
 				success: function(result){
-					document.getElementById("result").innerHTML = parseQuirk(result);
+					var resultHTML = parseQuirk(result);
+					if(resultHTML.toLowerCase().search("undefined") < 0) {
+						document.getElementById("result").innerHTML = resultHTML;
+					} else {
+						logError(result);
+					}
+						
 				},
 				error: function(e) {
-					console.log(e.status);
+					logError(e.toString());
 				}
 			});
 		}
@@ -108,8 +119,7 @@ Song I'm listening to: 333 Revisited - Flea
 				try {
 					quirk();
 				} catch(err) {
-					console.log(err);
-					document.getElementById("result").innerHTML = "<h2>You're Quirkless</h2>";
+					logError(err.toString());
 				}
 			
 				// Adds the 'inactive' class to keep people from spamming the button

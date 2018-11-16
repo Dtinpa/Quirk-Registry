@@ -11,12 +11,10 @@ import json
 # dtdthomp54@gmail.com
 # This spider is responsible for gettings a random body part that we may use for the activation of the quirk
 
-# The "Body:" portion helps when reading the spider data.  Since the spiders are ran simultaneously, we can't garuntee order of output.
-globalResult = {"Body":"None"}
-
 # This spider is responsible for retrieving a random body part for power activation.
 class Spider_BodyData(Spider):
 	name = "bodyData";
+	globalResult = {"Body":"None"};
 
 	# Allows our spider_closed function to be called once the spider sends a "spider_closed" signal
 	@classmethod
@@ -43,15 +41,13 @@ class Spider_BodyData(Spider):
 		yield req;
 
 	def parse(self, response):
-		global globalResult;
-		globalResult = {"Body": self.parseBody(response.body)};
+		self.globalResult = {"Body": self.parseBody(response.body)};
 	
 	# Only prints the final result if the spider ran successfully.
 	# Won't indicate if data was unnsuccesfully extracted
 	def spider_closed(self, reason):
 		if reason == "finished":
-			global globalResult;
-			print json.dumps(globalResult);
+			print json.dumps(self.globalResult);
 	
 	#Parses the html body of the random body site.
 	def parseBody(self, response):

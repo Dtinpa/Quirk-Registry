@@ -11,11 +11,9 @@ import json
 # dtdthomp54@gmail.com
 # This spider is responsible for retrieving the super power name, desc, and limitations
 
-# Initializing empty json object so it can be accessed anywhere
-globalResult = {"Power":"None"}
-
 class Spider_PowerData(Spider):
-	name = "powerData"
+	name = "powerData";
+	globalResult = {"Power":"None"};
 
 	# Sets up signals that execute spider functions when triggered, in this case, spider_closed
 	@classmethod
@@ -39,21 +37,18 @@ class Spider_PowerData(Spider):
                 urlSplit = resultUrl.split("/");			
 
 		# Setup the proper json object so it can be turned into a string
-		global globalResult;
-		globalResult = {"Power": {
-				"Name": urlSplit[len(urlSplit) - 1].replace("_", " "),
-				"Desc": desc,
-				"Limit": limit,
-				"Special": special
-				}};
-				
-
+		self.globalResult = {"Power": {
+			"Name": urlSplit[len(urlSplit) - 1].replace("_", " "),
+			"Desc": desc,
+			"Limit": limit,
+			"Special": special
+		}};
+		
 	# Only prints the final result if the spider ran successfully.
 	# Won't indicate if data was unnsuccesfully extracted
 	def spider_closed(self, reason):
 		if reason == "finished":
-			global globalResult;
-			print json.dumps(globalResult);
+			print json.dumps(self.globalResult);
 
 
 	# Parses the html body of the super power site.  Gets ability name and description.

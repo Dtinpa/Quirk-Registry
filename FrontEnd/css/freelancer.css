@@ -18,8 +18,17 @@ h6 {
   font-family: 'Montserrat';
   margin-top: 3rem;
 }
-.quirkHeader {
-	margin-top: 3rem;
+.quirkDiv {
+	line-height: 2rem;
+	overflow: hidden;
+}
+.quirkHeader{
+	line-height: 2.5rem;
+}
+.quirkCapsule {
+	border-radius: 0.5rem;
+	background-color: #2c3e50!important;
+	color:#fff;
 }
 hr.star-light,
 hr.star-dark {

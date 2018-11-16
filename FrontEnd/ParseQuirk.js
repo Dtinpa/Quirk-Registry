@@ -12,7 +12,7 @@ function parseQuirk(obj) {
 	
 	// generate a random range that affects the power, that trends towards lower values
 	var min = 0;
-	var max = 4000;
+	var max = 1000;
 	var range = parseInt(min + (max - min) * Math.pow(Math.random(), 6));
 	
 	return constructOutput(obj["Power"]["Name"],
@@ -26,14 +26,14 @@ function parseQuirk(obj) {
 
 // Creates the final format for the quirk to be displayed to the user
 function constructOutput(powerName, powerDesc, finalLimit, channel, range, special) {
-	title = "<h2 class='quirkHeader'>Quirk</h2><div>" + powerName + "</div>";
-	desc = "<h2 class='quirkHeader'>Info</h2><div>" + powerDesc + "</div>";
-	chnl = "<h2 class='quirkHeader'>Method of Activation</h2><div>" + channel + "</div>";
-	limit = "<h2 class='quirkHeader'>Limit / More Susceptible To</h2><div>" + finalLimit.replace(' Symptoms and Signs','') + "</div>";
+	title = "<div class='quirkCapsule'><h2 class='quirkHeader'>Quirk</h2><div class='quirkDiv'>" + powerName + "</div></div>";
+	desc = "<div class='quirkCapsule'><h2 class='quirkHeader'>Info</h2><div class='quirkDiv'>" + powerDesc + "</div></div>";
+	chnl = "<div class='quirkCapsule'><h2 class='quirkHeader'>Method of Activation</h2><div class='quirkDiv'>" + channel + "</div></div>";
+	limit = "<div class='quirkCapsule'><h2 class='quirkHeader'>Limit / More Susceptible To</h2><div class='quirkDiv'>" + finalLimit.replace(' Symptoms and Signs','') + "</div></div>";
 	rnge = "";
 	
 	if(!special.includes("No Range")) {
-		rnge = "<h2 class='quirkHeader'>Range</h2><div>" + range + "m</div>";
+		rnge = "<div class='quirkCapsule'><h2 class='quirkHeader'>Range</h2><div class='quirkDiv'>" + range + "m</div></div>";
 	}
 	
 	return title + desc + chnl + limit + rnge;
@@ -60,7 +60,7 @@ function activationCalc(body, action, activity, special) {
 	var manifestation = "";
 	var manChance = Math.random();
 	
-	if (special.includes("body")) {
+	if (special != null && special.includes("body")) {
 		manifestation = manBodyPart(body, action);
 	} else if(manChance < 0.3 || special.includes("activity")) {
 		manifestation = activity.charAt(0).toUpperCase() + activity.slice(1);
@@ -85,7 +85,7 @@ function manBodyPart(body, action) {
 		bodyActivation = body.charAt(0).toUpperCase() + body.slice(1);
 	}
 	
-	// Adds an optional descriptor to the body part to be, for example, "move your arm"
+	// Adds an optional descriptor to the body part to be, for example, "'move' your arm"
 	var extraDescriptor = Math.random();
 	
 	if(extraDescriptor < .3) {

@@ -12,11 +12,9 @@ import json
 # dtdthomp54@gmail.com
 # This spider is responsible for gettings a random medical condition to use as a weakness for the power
 
-# The "Weak:" portion helps when reading the spider data.  Since the spiders are ran simultaneously, we can't garuntee order of output.
-globalResult = {"Weak":"None"}
-
 class Spider_WeakData(Spider):
 	name = "weakData";
+	globalResult = {"Weak":"None"};
 
 	# Allows our spider_closed function to be called once the spider sends a "spider_closed" signal
 	@classmethod
@@ -32,9 +30,8 @@ class Spider_WeakData(Spider):
 		yield scrapy.Request(url=url, callback=self.parse);
 		
 	def parse(self, response):
-		global globalResult;
 		weak, weakUrl = self.parseBody(response.body);
-		globalResult = {"Weak": {
+		self.globalResult = {"Weak": {
 					"Desc": weak,
 					"URL": "https://www.medicinenet.com" + weakUrl
 				}};
@@ -43,8 +40,7 @@ class Spider_WeakData(Spider):
 	# Won't indicate if data was unnsuccesfully extracted
 	def spider_closed(self, reason):
 		if reason == "finished":
-			global globalResult;
-			print json.dumps(globalResult);
+			print json.dumps(self.globalResult);
 	
 	#Parses the html body of the random symptom site.
 	def parseBody(self, response):
