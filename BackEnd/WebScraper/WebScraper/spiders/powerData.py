@@ -24,7 +24,7 @@ class Spider_PowerData(Spider):
 
 	def start_requests(self):
 		urls = [
-			'http://powerlisting.wikia.com/wiki/Special:Random',
+			'http://powerlisting.fandom.com/wiki/Special:Random',
 			]
 		for url in urls:
 			yield scrapy.Request(url=url, callback=self.parse)
